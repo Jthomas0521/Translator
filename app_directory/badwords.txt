@@ -1,0 +1,18 @@
+badwords.txt
+
+# Profanity Words
+
+# English
+Fuck
+Shit
+Bitch
+
+# Spanish
+Mierda
+Culo
+Puta
+
+# Arabic
+عاهرة
+مؤخرة
+القرف

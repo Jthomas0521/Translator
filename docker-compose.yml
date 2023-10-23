@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "'8000:8000"
+    volumes:
+      - ./app:/app
+      - /foreign_files:/foreign_files
+    depends_on:
+      - libretranslate
+  libretranslate:
+    image: libretranslate/libretranslate
+    volumes:
+      - input:/input
+      - output:/output
+volumes:
+  input:
+  output:

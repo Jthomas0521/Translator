@@ -3,7 +3,7 @@ services:
   web:
     build: .
     ports:
-      - "'8000:8000"
+      - "8000:8000"
     volumes:
       - ./app:/app
       - /foreign_files:/foreign_files
@@ -12,8 +12,8 @@ services:
   libretranslate:
     image: libretranslate/libretranslate
     volumes:
-      - input:/input
-      - output:/output
+      - /input:/input
+      - /output:/output
+      - libretranslate_lang_files:/home/libretranslate/.local
 volumes:
-  input:
-  output:
+  libretranslate_lang_files:

@@ -11,6 +11,8 @@ app = Flask(__name__)
 APP_DIRECTORY = os.environ.get("APP_DIRECTORY")
 profanity_words = os.path.join(APP_DIRECTORY, 'badwords.txt')
 #app/badwords.txt
+LIBRE_TRANSLATE_PORT = os.environ.get("LIBRE_TRANSLATE_PORT")
+
 
 # Profanity Words Checker
 def profanity(text):
@@ -99,4 +101,4 @@ def translate():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    app.run(host='0.0.0.0', port=LIBRE_TRANSLATE_PORT, debug=True)

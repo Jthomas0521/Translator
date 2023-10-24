@@ -13,7 +13,6 @@ profanity_words = os.path.join(APP_DIRECTORY, 'badwords.txt')
 #app/badwords.txt
 LIBRE_TRANSLATE_PORT = os.environ.get("LIBRE_TRANSLATE_PORT")
 
-
 # Profanity Words Checker
 def profanity(text):
     with open(profanity_words, 'r') as file:

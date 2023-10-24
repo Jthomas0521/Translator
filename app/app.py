@@ -2,16 +2,23 @@ import os
 from flask import Flask, request, render_template, Response
 # from libretranslate import LibreTranslate
 import requests
-
+import logging
+from dotenv import load_dotenv
+logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
+
+
+load_dotenv()
 
 # libretranslate = LibreTranslate(target_language="en")
 
 # Requests the current directory
 APP_DIRECTORY = os.environ.get("APP_DIRECTORY")
+logging.info(f'APP_DIRECTORY is {APP_DIRECTORY}')
 profanity_words = os.path.join(APP_DIRECTORY, 'badwords.txt')
-#app/badwords.txt
+
 LIBRE_TRANSLATE_PORT = os.environ.get("LIBRE_TRANSLATE_PORT")
+
 
 # Profanity Words Checker
 def profanity(text):

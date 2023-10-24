@@ -57,7 +57,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/', methods=['POST'])
+@app.route('/translate', methods=['POST'])
 def translate():
     input_text = request.form.get('input_text')
     file_path = request.form.get('file_path')
@@ -98,4 +98,4 @@ def translate():
 
 
 if __name__ == "__main__":
-    app.run(host='127.0.0.1', port=8000)
+    app.run(host='0.0.0.0', port=8000, debug=True)

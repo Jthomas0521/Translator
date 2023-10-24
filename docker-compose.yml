@@ -1,6 +1,7 @@
 version: '3'
 services:
   web:
+    image: translator-web
     build: .
     ports:
       - "8000:8000"

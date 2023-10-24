@@ -8,9 +8,9 @@ app = Flask(__name__)
 # libretranslate = LibreTranslate(target_language="en")
 
 # Requests the current directory
-app_directory = os.path.dirname(__file__)
-profanity_words = os.path.join(app_directory, 'badwords.txt')
-
+APP_DIRECTORY = os.environ.get("APP_DIRECTORY")
+profanity_words = os.path.join(APP_DIRECTORY, 'badwords.txt')
+#app/badwords.txt
 
 # Profanity Words Checker
 def profanity(text):
@@ -28,8 +28,8 @@ def profanity(text):
 
 
 # Directory paths for input and output volumes
-input_directory = os.path.join(app_directory, 'input')
-output_directory = os.path.join(app_directory, 'output')
+input_directory = os.path.join(APP_DIRECTORY, 'input')
+output_directory = os.path.join(APP_DIRECTORY, 'output')
 
 # Input and Output Directories
 os.makedirs(input_directory, exist_ok=True)
@@ -37,19 +37,20 @@ os.makedirs(output_directory, exist_ok=True)
 
 
 # Translated Text
-def translated_text(text):
-    libretranslate_page = 'http://libretranslate:8000/translate'
+def text_translator(text):
+    LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
+    # 'http://libretranslate:8000/translate'
     data = {'input_text': text}
-    response = requests.post(libretranslate_page, data=data)
-    return response
+    gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
+    return gen_response
 
 
-# Translated text pille
-def translated_file(file_path):
+# Translated text file
+def file_translator(file_path):
     with open(file_path, 'r') as file:
         input_text = file.read()
-        response = translated_text(input_text)
-        return response.text
+        file_response = text_translator(input_text)
+        return file_response.text
 
 
 @app.route('/')
@@ -66,18 +67,18 @@ def translate():
         return "Profanity Detected. Please Remove."
 
     if file_path:
-        file_path = os.path.join(app_directory, file_path)
+        file_path = os.path.join(APP_DIRECTORY, file_path)
 
         if os.path.exists(file_path):
             if os.path.isfile(file_path):
-                translated_text = translated_file(file_path)
+                translated_text = file_translator(file_path)
             elif os.path.isdir(file_path):
                 translated_text = ""
 
                 for root, dirs, files in os.walk(file_path):
                     for filename in files:
                         filepath = os.path.join(root, filename)
-                        translated_text += translated_file(filepath)
+                        translated_text += file_translator(filepath)
 
                 output_file_path = os.path.join(output_directory, os.path.basename(file_path))
                 with open(output_file_path, 'w') as output_file:
@@ -89,10 +90,10 @@ def translate():
             return "File or Directory not found", 400
 
     else:
-        response = translated_text(input_text)
-        if response.status_code != 200:
-            return f"Translation error: {response.status_code}", 500
-        translated_text = response.text
+        text_response = text_translator(input_text)
+        if text_response.status_code != 200:
+            return f"Translation error: {text_response.status_code}", 500
+        translated_text = text_response.text
 
     return Response(translated_text, content_type='text/plain')
 

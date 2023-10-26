@@ -10,10 +10,12 @@ services:
       - APP_DIRECTORY=/app
       - LIBRE_TRANSLATE_PORT=8001
     volumes:
-      - ./app:/app
+      - ./src:/src
       - ./foreign_files:/foreign_files
     depends_on:
       - libretranslate
+    networks:
+      - kafka_net
   
   
   libretranslate:
@@ -27,7 +29,16 @@ services:
     environment:
       - LT_DEBUG=True
       - LT_FRONTEND_LANGUAGE_TARGET=en
+    networks:
+      - kafka_net
       
 
 volumes:
   libretranslate_lang_files:
+
+
+
+# Networks ================================================
+networks:
+  kafka_net:
+    name: kafka_net

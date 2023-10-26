@@ -1,0 +1,86 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
+{
+	"name": "Translator",
+	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
+	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
+	"dockerComposeFile": [
+		"../docker-compose.dev.yml",
+	],
+	// The 'service' property is the name of the service for the container that VS Code should
+	// use. Update this value and .devcontainer/docker-compose.yml to the real service name.
+	"service": "web-dev",
+	"remoteUser": "vscode",
+	"workspaceFolder": "/app",
+	"features": {
+		"ghcr.io/devcontainers/features/git:1": {
+			"ppa": true,
+			"version": "os-provided"
+		},
+		"ghcr.io/guiyomh/features/vim:0": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"vscode-icons-team.vscode-icons",
+				"donjayamanne.python-extension-pack",
+				"ms-python.black-formatter",
+				"ms-python.flake8",
+				"ms-vsliveshare.vsliveshare"
+			],
+			"settings": {
+				"python.languageServer": "Pylance",
+				"files.exclude": {
+					".idea/": true,
+					".vscode": true,
+					"**/__pycache__": true,
+					"**/.pytest_cache": true,
+					"**/.mypy_cache": true
+				},
+				"editor.tabSize": 4,
+				"editor.mouseWheelZoom": false,
+				"git.enableSmartCommit": true,
+				"git.confirmSync": false,
+				"security.workspace.trust.untrustedFiles": "open",
+				"workbench.iconTheme": "vscode-icons",
+				"editor.minimap.size": "fill",
+				"editor.minimap.showSlider": "always",
+				"editor.minimap.enabled": false,
+				"remote.SSH.localServerDownload": "off",
+				"debug.allowBreakpointsEverywhere": true,
+				"pylint.args": [
+					"${workspaceFolder}/src"
+				],
+				"flake8.args": [
+					"--ignore=E501,W503,S101,"
+				],
+				"editor.formatOnSave": false,
+				"black-formatter.args": [
+					"--preview",
+					"--line-length",
+					"115"
+				],
+				"[python]": {
+					"editor.defaultFormatter": "ms-python.black-formatter",
+					"editor.formatOnType": true,
+					"editor.formatOnSave": true
+				},
+				"window.zoomLevel": 2
+			}
+		}
+	},
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Uncomment the next line if you want start specific services in your Docker Compose config.
+	// "runServices": [],
+	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
+	// "shutdownAction": "none",
+	// Uncomment the next line to run commands after the container is created.
+	
+	// Configure tool-specific properties.
+	// "customizations": {},
+	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "devcontainer"
+}

@@ -1,0 +1,114 @@
+[tool.tox]
+legacy_tox_ini = """
+
+    # tox (https://tox.readthedocs.io/) is a tool for running tests
+    # in multiple virtualenvs. This configuration file will run the
+    # test suite on all supported python versions. To use it, "pip install tox"
+    # and then run "tox" from this directory.
+
+    [tox]
+    skip_missing_interpreters = True
+    # default to testing python 3.11 but by setting the environment variable here you can
+    # test any version of python supported by tox
+    envlist = flake8,black,pytest,mypy
+    skipsdist = True
+    toxworkdir = {toxinidir}/.tox
+
+
+
+    [testenv:black]
+    skip_install = true
+    deps = 
+        # BE SURE that this version matches your requirements-dev.txt version
+        # otherwise you'll get false positive errors
+        black==23.1.0
+    commands = 
+        # If this scan fails ,run the command "black --preview src/" to fix your code.
+        # Too easy right?
+        black --preview --check --line-length 115 src/
+
+
+    [testenv:pytest]
+    changedir = {toxinidir}/
+    deps =-r{toxinidir}/requirements-dev.txt
+    commands =
+        # This command uses our pytest.ini config file and .test.env environment variable
+        # file to test our code.  Coverage needs to be 90% or greater.
+        pytest --cov=./ tests/
+
+
+    # Linters
+    [testenv:flake8]
+    skip_install = true
+    deps =
+        flake8 # The basic kit, need this to install other specialized linters
+        flake8-bandit # security linting
+        flake8-commas # extremely useful for keeping code look & feel consistent
+        flake8-bugbear # good linting tool from Facebook
+        flake8-simplify # good at simplifying code
+        pep8-naming 
+    commands =
+        # Error E501 is the line length too long error. We ignore it because I don't want to reformat all my comments
+        #
+        # Error W503 is a soon to be deprecated warning
+        # https://www.flake8rules.com/rules/W503.html
+        #
+        # Error F401 claims we have unused imports, but those imports might have side effects we want.
+        # For example, importing my format_logging.py file has a side effect of customizing the logging format.
+        #
+        # Error S101 is just wrong. It throws errors on asserts in unit tests.
+        #
+        # If you are receiving a false positive, such as an incorrect Flake8 security code error 
+        # then copy/paste the following onto the false-error line of code
+        # noqa: F401  <--this comment prevents F401 false positives.
+        # Search the codebase for "noqa:" to see lots of examples
+        flake8  --ignore=E501,W503,S101 src/
+
+    # Type Hinting
+    [testenv:mypy]
+    skip_install = true
+    deps =
+        mypy
+    commands = 
+        # Run the MYPY Typehinter scanner.  It is running with fairly strict settings
+        mypy src/
+
+"""
+
+################################################################
+[tool.mypy]
+    mypy_path = "$MYPY_CONFIG_FILE_DIR/src"
+    explicit_package_bases = true
+    # Enable strict temporarily to try to make your code look really good
+    #strict = true
+    allow_untyped_decorators = true
+    disallow_untyped_calls = true
+    disallow_untyped_defs = true
+    disallow_incomplete_defs = true
+    check_untyped_defs = true    
+    implicit_optional = true
+    disable_error_code = ["import","attr-defined"]
+    exclude = ["tests/"]
+        
+################################################################
+[tool.pytest.ini_options]
+    # the below statement is useful, but it breaks vscode step-by-step breakpoint debugging.
+    # until a fix is found, keep it out of the "addopts" line
+    # "--cov=./"
+    pythonpath = [".","src","submodules/microservices_shared"]
+    addopts = "-s" 
+    testpaths = ["tests/"]
+
+    env_override_existing_values = 1
+    env_files =  [".env","tests/.test.env"]
+################################################################
+[tool.coverage.run]
+    omit = [
+    # no need to see if test files have coverage....because they ARE the tests
+    "tests/*.py",
+    # No need for each dev to retest the submodule, they can just assume it works well
+    "submodules/*",
+    # I never use these files so why bother testing? They just 
+    # make the pytest coverage results cluttered.
+    "*/__init__.py",
+    ]

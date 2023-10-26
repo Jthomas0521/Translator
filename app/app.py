@@ -24,6 +24,7 @@ LIBRE_TRANSLATE_PORT = os.environ.get("LIBRE_TRANSLATE_PORT")
 def profanity(text):
     with open(profanity_words, 'r') as file:
         badwords = set(word.strip() for word in file)
+        logging.debug
 
         # Splits the words
         words = text.lower().split()
@@ -47,7 +48,6 @@ os.makedirs(output_directory, exist_ok=True)
 # Translated Text
 def text_translator(text):
     LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-    # 'http://libretranslate:5000/translate'
     data = {'input_text': text}
     gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
     return gen_response

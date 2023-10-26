@@ -26,6 +26,8 @@ services:
       - "5000:5000"
     environment:
       - LT_DEBUG=True
+      - LT_FRONTEND_LANGUAGE_TARGET=en
+      
 
 volumes:
   libretranslate_lang_files:

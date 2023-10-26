@@ -23,8 +23,7 @@ LIBRE_TRANSLATE_PORT = os.environ.get("LIBRE_TRANSLATE_PORT")
 # Profanity Words Checker
 def profanity(text):
     with open(profanity_words, 'r') as file:
-        badwords = set(word.strip() for word in file)
-        logging.debug
+        badwords = set(word for word in file)
 
         # Splits the words
         words = text.lower().split()
@@ -33,6 +32,7 @@ def profanity(text):
         for word in words:
             if word in badwords:
                 return True
+            logging.error("%s is not allowed.", word)
         return False
 
 

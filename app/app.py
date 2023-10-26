@@ -47,7 +47,7 @@ os.makedirs(output_directory, exist_ok=True)
 # Translated Text
 def text_translator(text):
     LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-    # 'http://libretranslate:8000/translate'
+    # 'http://libretranslate:5000/translate'
     data = {'input_text': text}
     gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
     return gen_response
@@ -107,4 +107,4 @@ def translate():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=LIBRE_TRANSLATE_PORT, debug=True)
+    app.run(host='0.0.0.0', port=LIBRE_TRANSLATE_PORT, debug=False)

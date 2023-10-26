@@ -1,7 +1,3 @@
-from langdetect import detect
-
-text = input("enter your text here: ")
-
-tone = detect(text)
-
-print("your text is in", tone)
+def test_profanity():
+    text: List[str] = ["hello", "shit", "hola"]
+    badwords = 

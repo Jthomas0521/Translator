@@ -14,6 +14,7 @@ def test_translator(monkeypatch):
     assert app.text_translator("hola")
 
 
-def file_translator(monkeypatch):
+def test_file(monkeypatch):
 
-    assert app.file_translator()
+    assert app.file_translator("sample.txt")
+

@@ -5,5 +5,5 @@ from src import app  # noqa: F401
 
 
 def test_badwords(monkeypatch):
-    app.profanity("fuck")
-    assert False
+    
+    assert app.profanity("fuck you")

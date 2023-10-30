@@ -4,7 +4,7 @@ from flask import Flask, request, render_template, Response
 import requests
 import logging
 from dotenv import load_dotenv
-logging.basicConfig(level=logging.DEBUG)
+
 app = Flask(__name__)
 
 
@@ -20,22 +20,6 @@ profanity_words = os.path.join(APP_DIRECTORY, 'badwords.txt')
 LIBRE_TRANSLATE_PORT = os.environ.get("LIBRE_TRANSLATE_PORT")
 
 
-# Profanity Words Checker
-def profanity(text):
-    with open(profanity_words, 'r') as file:
-        badwords = set(word for word in file)
-
-        # Splits the words
-        words = text.lower().split()
-
-        # Detects if any words  from the text are identified in the badwords.txt file
-        for word in words:
-            if word in badwords:
-                return True
-            logging.error("%s is not allowed.", word)
-        return False
-
-
 # Directory paths for input and output volumes
 input_directory = os.path.join(APP_DIRECTORY, 'input')
 output_directory = os.path.join(APP_DIRECTORY, 'output')
@@ -43,6 +27,25 @@ output_directory = os.path.join(APP_DIRECTORY, 'output')
 # Input and Output Directories
 os.makedirs(input_directory, exist_ok=True)
 os.makedirs(output_directory, exist_ok=True)
+
+# Logging Info
+logging.basicConfig(filename=output_directory, level=logging.INFO)
+
+
+# Profanity Words Checker
+def profanity(text):
+    with open(profanity_words, 'r') as file:
+        badwords = set(word.strip().lower() for word in file)
+
+        # Splits the text
+        split_text = text.lower().split()
+
+        # Detects if any words  from the text are identified in the badwords.txt file
+        for word in badwords:
+            if word in split_text:
+                logging.info(f"{word} is not allowed.")
+                return True
+        return False
 
 
 # Translated Text

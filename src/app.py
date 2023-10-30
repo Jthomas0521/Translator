@@ -29,13 +29,19 @@ os.makedirs(input_directory, exist_ok=True)
 os.makedirs(output_directory, exist_ok=True)
 
 # Logging Info
-logging.basicConfig(filename=output_directory, level=logging.INFO)
+logging.basicConfig(filename='output.log', level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')
+
+logger = logging.getLogger(__name__)
+
+# string_handler = logging.StreamHandler()
+
+# logger.addHandler(string_handler)
 
 
 # Profanity Words Checker
 def profanity(text):
     with open(profanity_words, 'r') as file:
-        badwords = set(word.strip().lower() for word in file)
+        badwords = set(word.lower().strip() for word in file)
 
         # Splits the text
         split_text = text.lower().split()
@@ -43,7 +49,7 @@ def profanity(text):
         # Detects if any words  from the text are identified in the badwords.txt file
         for word in badwords:
             if word in split_text:
-                logging.info(f"{word} is not allowed.")
+                logger.info(f"{word} is not allowed.")
                 return True
         return False
 

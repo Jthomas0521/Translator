@@ -34,7 +34,6 @@ os.makedirs(output_directory, exist_ok=True)
 # logging.basicConfig(filemode='w', level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')
 
 
-
 # string_handler = logging.StreamHandler()
 
 # logger.addHandler(string_handler)

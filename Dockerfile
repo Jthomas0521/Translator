@@ -8,14 +8,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . . 
 
 ENV NAME World
+WORKDIR /src
+RUN useradd -ms /bin/bash vscode && chown -R vscode:vscode /src && chmod 755 -R /src
+USER vscode
 
-CMD [ "python", "app/app.py" ]
+CMD [ "python", "/src/app.py" ]
 
 
 FROM build as dev
-WORKDIR /app
+WORKDIR /src
 COPY requirements-dev.txt ./requirements-dev.txt
 RUN pip3 install -r requirements-dev.txt
-RUN useradd -ms /bin/bash vscode && chown -R vscode:vscode /app && chmod 755 -R /app
-USER vscode
-CMD ["sleep","infinity"]

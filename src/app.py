@@ -5,6 +5,8 @@ import requests
 import logging
 from dotenv import load_dotenv
 
+logger = logging.getLogger(__name__)
+logger.setLevel(os.environ.get("LOG_LEVEL"))
 app = Flask(__name__)
 
 
@@ -29,9 +31,9 @@ os.makedirs(input_directory, exist_ok=True)
 os.makedirs(output_directory, exist_ok=True)
 
 # Logging Info
-logging.basicConfig(filename='output.log', level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')
+# logging.basicConfig(filemode='w', level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')
 
-logger = logging.getLogger(__name__)
+
 
 # string_handler = logging.StreamHandler()
 

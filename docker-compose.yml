@@ -2,13 +2,17 @@ version: '3'
 services:
   web:
     image: translator-web
-    build: .
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: build
     ports:
       - "8000:8000"
     environment:
       - LIBRE_TRANSLATE_URL=http://libretranslate:5000/translate
-      - APP_DIRECTORY=/app
-      - LIBRE_TRANSLATE_PORT=8001
+      - APP_DIRECTORY=/src
+      - LIBRE_TRANSLATE_PORT=8000
+      - LOG_LEVEL=DEBUG
     volumes:
       - ./src:/src
       - ./foreign_files:/foreign_files

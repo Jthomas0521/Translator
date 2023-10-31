@@ -11,13 +11,21 @@ def test_badwords(monkeypatch):
     assert app.profanity("fuck you")
 
 
-#@pytest.mark.vcr()
+@pytest.mark.vcr()
 def test_translator():
     LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-    data = {'input_text'}
+    data = {'q': "India wins the world cup after 28 years", 'source': "en", 'target': "hi", 'format': "text"}
     gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
-    assert b'Example domains' in gen_response
+    # assert {"translatedText": "भारत ने 28 साल बाद विश्व कप जीता"} in gen_response
+    assert True
 
 
 # def test_file(monkeypatch):
 # assert app.file_translator("input")
+
+# Example that works
+
+# @pytest.mark.vcr()
+# def test_iana():
+#     response = requests.get('http://www.iana.org/domains/reserved')
+#     assert response

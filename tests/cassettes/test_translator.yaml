@@ -1,0 +1,52 @@
+interactions:
+- request:
+    body: q=India+wins+the+world+cup+after+28+years&source=en&target=hi&format=text
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '73'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - python-requests/2.31.0
+    method: POST
+    uri: http://localhost:5000/translate
+  response:
+    body:
+      string: "{\"translatedText\":\"\u092D\u093E\u0930\u0924 \u0928\u0947 28 \u0938\u093E\u0932
+        \u092C\u093E\u0926 \u0935\u093F\u0936\u094D\u0935 \u0915\u092A \u091C\u0940\u0924\u093E\"}\n"
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type
+      Access-Control-Allow-Methods:
+      - GET, POST
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization
+      Access-Control-Max-Age:
+      - '1728000'
+      Connection:
+      - close
+      Content-Length:
+      - '100'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 31 Oct 2023 19:05:18 GMT
+      Server:
+      - Werkzeug/2.2.2 Python/3.10.10
+      Set-Cookie:
+      - session=c20dfa71-3176-47a8-980e-75e998fca228; Expires=Fri, 01 Dec 2023 19:05:18
+        GMT; HttpOnly; Path=/
+    status:
+      code: 200
+      message: OK
+version: 1

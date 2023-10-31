@@ -20,6 +20,7 @@ def test_translator():
     # assert True
     # assert app.text_translator(gen_response)
     assert gen_response
+    # assert False
 
 
 # def test_file(monkeypatch):

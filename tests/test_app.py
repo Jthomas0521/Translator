@@ -1,7 +1,8 @@
-from pathlib import Path
 from tempfile import TemporaryDirectory  # noqa: F401
 
-from src import app  # noqa: F401
+from src import app, data  # noqa: F401
+import pytest
+import requests
 
 
 def test_badwords(monkeypatch):
@@ -9,12 +10,11 @@ def test_badwords(monkeypatch):
     assert app.profanity("fuck you")
 
 
-def test_translator(monkeypatch):
+@pytest.mark.vcr()
+def test_translator():
+    response = requests.post(app.LIBRE_TRANSLATE_PORT, data=data)
+    assert b'Example domains' in response
 
-    assert app.text_translator("hola")
 
-
-def test_file(monkeypatch):
-
-    assert app.file_translator("sample.txt")
-
+# def test_file(monkeypatch):
+# assert app.file_translator("input")

@@ -1,18 +1,17 @@
 import os
 from flask import Flask, request, render_template, Response
-# from libretranslate import LibreTranslate
 import requests
 import logging
 from dotenv import load_dotenv
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger()
+
 logger.setLevel(os.environ.get("LOG_LEVEL"))
 app = Flask(__name__)
 
 
 load_dotenv()
 
-# libretranslate = LibreTranslate(target_language="en")
 
 # Requests the current directory
 APP_DIRECTORY = os.environ.get("APP_DIRECTORY")
@@ -32,10 +31,7 @@ os.makedirs(output_directory, exist_ok=True)
 
 # Logging Info
 # logging.basicConfig(filemode='w', level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')
-
-
 # string_handler = logging.StreamHandler()
-
 # logger.addHandler(string_handler)
 
 
@@ -93,7 +89,7 @@ def translate():
             elif os.path.isdir(file_path):
                 translated_text = ""
 
-                for root, dirs, files in os.walk(file_path):
+                for root, files in os.walk(file_path):
                     for filename in files:
                         filepath = os.path.join(root, filename)
                         translated_text += file_translator(filepath)

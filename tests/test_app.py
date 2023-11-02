@@ -12,19 +12,22 @@ def test_badwords(monkeypatch):
 
 
 @pytest.mark.vcr()
-def test_translator():
+def test_translator(data):
     LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
     data = {'q': "India wins the world cup after 28 years", 'source': "en", 'target': "hi", 'format': "text"}
     gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
     # assert {"भारत ने 28 साल बाद विश्व कप जीता"} in gen_response
     # assert True
     # assert app.text_translator(gen_response)
+    assert data
     assert gen_response
     # assert False
 
 
-# def test_file(monkeypatch):
-# assert app.file_translator("input")
+def test_file():
+    APP_DIRECTORY = os.environ.get("APP_DIRECTORY")
+    test_path = os.path.join(APP_DIRECTORY, 'testfile.txt')
+    assert app.file_translator(test_path)
 
 # Example that works
 

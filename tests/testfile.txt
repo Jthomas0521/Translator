@@ -1,0 +1,2 @@
+This a test case to see if it reads.
+The aim is to have the file translated from english to any other language selected.

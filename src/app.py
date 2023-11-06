@@ -1,8 +1,10 @@
 import os
 from flask import Flask, request, render_template, Response
 import requests
+from requests import Response
 import logging
 from dotenv import load_dotenv
+import json
 
 logger = logging.getLogger()
 
@@ -52,11 +54,12 @@ def profanity(text):
 
 
 # Translated Text
-def text_translator(text):
+def text_translator(text) -> Response:
     LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-    data = {'input_text': text}
+    data = {'q': text, 'source': "auto", 'target': "en"}
     gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
-    return gen_response
+    json_response = json.loads(gen_response.text)
+    return json_response
 
 
 # Translated text file

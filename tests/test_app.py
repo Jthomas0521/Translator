@@ -15,13 +15,25 @@ def test_badwords(monkeypatch):
 @pytest.mark.vcr()
 def test_translator(monkeypatch):
     LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-    data = {'q': "India wins the world cup after 28 years", 'source': "en", 'target': "hi", 'format': "text"}
-    F_gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
+    data = {'q': 'India gana la copa mundial después de 28 años', 'source': "es", 'target': "en"}
+    response = requests.post(LIBRE_TRANSLATE_URL, data=data)
 
-    if F_gen_response.status_code == 200:
-        # print(type(F_gen_response.text))
-        json_response = json.loads(F_gen_response.text)
-        assert json_response['translatedText']
+    # print(type(F_gen_response.text))
+    json_response = json.loads(response.text)
+    print(json_response)
+    assert app.text_translator("India wins the world cup after 28 years")
+    
+@pytest.mark.vcr()
+def test_translator_fake(monkeypatch):
+    LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
+    data = {'q': 'India gana la copa mundial después de 28 años', 'source': "es", 'target': "en"}
+    response = requests.post(LIBRE_TRANSLATE_URL, data=data)
+    fake_text = "blahg balkeaeh oaedsfoih"
+
+    # print(type(F_gen_response.text))
+    json_response = json.loads(response.text)
+    print(json_response)
+    assert app.text_translator(fake_text == data)
 
 
 def test_file():

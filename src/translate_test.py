@@ -3,7 +3,7 @@ import requests
 import json
 
 LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-data = {'q': "Hello. My name is Jahquan", 'source': "en", 'target': "es", 'format': "text"}
+data = {'q': "Hello. My name is Jahquan. What is yours?", 'source': "en", 'target': "es", 'format': "text"}
 
 response = requests.post(LIBRE_TRANSLATE_URL, data=data)
 

@@ -3,7 +3,7 @@ from flask import Flask, request, render_template, Response, jsonify
 import requests
 import logging
 from dotenv import load_dotenv
-# import json
+import json
 
 load_dotenv()
 
@@ -54,15 +54,16 @@ def profanity(text):
 # Translated Text
 def text_translator(text) -> Response:
     LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-    data = {'q': text, 'source': "auto", 'target': "es"}
+    data = {'q': text, 'source': "auto", 'target': "en"}
     gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
+    json_response = json.loads(gen_response.text)
 
     logger.info(f"Translation Status Code: {gen_response.status_code}")
     logger.info(f"Translation Response Text: {gen_response.text}")
 
     if gen_response.status_code == 200:
-        return gen_response.text
-    return f"Translation error: {gen_response.status_code}"
+        return json_response["translatedText"]
+    return f"Translation error: {json_response.status_code}"
 
 
 # Translated text file
@@ -82,7 +83,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/translate', methods=['POST'])
+@app.route('/translate', methods=['POST', 'GET'])
 def translate():
     input_text = request.form.get('input_text')
     file_path = request.form.get('file_path')
@@ -118,7 +119,7 @@ def translate():
         translated_text = text_translator(input_text)
         return Response(translated_text, content_type='text/plain')
 
-    return jsonify({'translated_text': translated_text})
+    return jsonify({"Translated Text": translated_text.strip()})
 
 
 if __name__ == "__main__":

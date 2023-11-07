@@ -3,7 +3,7 @@ from flask import Flask, request, render_template, Response, jsonify
 import requests
 import logging
 from dotenv import load_dotenv
-import json
+# import json
 
 load_dotenv()
 
@@ -62,8 +62,7 @@ def text_translator(text) -> Response:
 
     if gen_response.status_code == 200:
         return gen_response.text
-    else:
-        return f"Translation error: {gen_response.status_code}"
+    return f"Translation error: {gen_response.status_code}"
 
 
 # Translated text file
@@ -72,12 +71,10 @@ def file_translator(file_path):
         input_text = file.read()
         file_response = text_translator(input_text)
 
-        # Checks to see if file_response produces an instance
+        # Checks to see if file_response produces an instance in Response
         if isinstance(file_response, Response):
             return file_response.text
-
-        else:
-            return file_response
+        return file_response
 
 
 @app.route('/')
@@ -120,7 +117,7 @@ def translate():
         # Checks to see if the text_response is a string
         translated_text = text_translator(input_text)
         return Response(translated_text, content_type='text/plain')
-    
+
     return jsonify({'translated_text': translated_text})
 
 

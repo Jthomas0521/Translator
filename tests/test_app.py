@@ -27,9 +27,9 @@ def test_translator(monkeypatch):
 @pytest.mark.vcr()
 def test_translator_fake(monkeypatch):
     LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-    fake_text = "Go Jets Go!"
+    fake_text = "Go Jets Go."
 
-    data = {'q': fake_text, 'source': "es", 'target': "fr"}
+    data = {'q': fake_text, 'source': "auto", 'target': "fr"}
     # data = {'q': 'India gana la copa mundial después de 28 años', 'source': "es", 'target': "fr"}
     response = requests.post(LIBRE_TRANSLATE_URL, data=data)
 
@@ -46,9 +46,18 @@ def test_file():
     response = app.file_translator(test_path)
     assert isinstance(response, str)
 
+
+@pytest.mark.vcr()
+def translator_test(monkepatch):
+    data = {'q': 'India gana la copa mundial después de 28 años', 'source': "es", 'target': "en"}
+    assert app.text_translator(data)
+
 # Example that works
 
 # @pytest.mark.vcr()
 # def test_iana():
 #     response = requests.get('http://www.iana.org/domains/reserved')
 #     assert response
+
+
+

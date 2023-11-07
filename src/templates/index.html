@@ -10,10 +10,11 @@
     <form action="/translate" method="POST">
         <label for="input_text">Input Text:</label><br>
         <input type="text" name="input_text" ><br><br>
-        <label for="file_path" >File Path or Directory</label><br>
+        <label for="file_path" >Upload File to be Translated</label><br>
         <input type="file" name="file_path"><br><br>
         <input type="submit" value="Translate"><br><br><br>
         <label for="translated_text">Result</label>
+        <div id="translated_text"{{translated_text}}></div>
         
     </form>
     

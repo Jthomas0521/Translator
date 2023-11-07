@@ -54,7 +54,7 @@ def profanity(text):
 # Translated Text
 def text_translator(text) -> Response:
     LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-    data = {'q': text, 'source': "auto", 'target': "en"}
+    data = {'q': text, 'source': "auto", 'target': "es"}
     gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
     json_response = json.loads(gen_response.text)
 
@@ -88,6 +88,8 @@ def translate():
     input_text = request.form.get('input_text')
     file_path = request.form.get('file_path')
 
+    # text_translator = None
+
     if profanity(input_text):
         return "Profanity Detected. Please Remove."
 
@@ -113,12 +115,12 @@ def translate():
                 return "Invalid File or Directory Path", 400
         else:
             return "File or Directory not found", 400
+        # return render_template('index.html', translated_text=translated_text)
 
     else:
         # Checks to see if the text_response is a string
         translated_text = text_translator(input_text)
         return Response(translated_text, content_type='text/plain')
-
     return jsonify({"Translated Text": translated_text.strip()})
 
 

@@ -25,8 +25,8 @@ services:
   libretranslate:
     image: libretranslate/libretranslate
     volumes:
-      - /input:/input
-      - /output:/output
+      - input:/input
+      - output:/output
       - libretranslate_lang_files:/home/libretranslate/.local
     ports:
       - "5000:5000"
@@ -38,6 +38,8 @@ services:
       
 
 volumes:
+  input:
+  output:
   libretranslate_lang_files:
 
 

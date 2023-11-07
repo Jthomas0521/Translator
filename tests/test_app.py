@@ -20,26 +20,31 @@ def test_translator(monkeypatch):
 
     # print(type(F_gen_response.text))
     json_response = json.loads(response.text)
-    print(json_response)
-    assert app.text_translator("India wins the world cup after 28 years")
-    
+    expected_text = "India wins the world cup after 28 years"
+    assert json_response["translatedText"] == expected_text
+
+
 @pytest.mark.vcr()
 def test_translator_fake(monkeypatch):
     LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-    data = {'q': 'India gana la copa mundial después de 28 años', 'source': "es", 'target': "en"}
+    fake_text = "Go Jets Go!"
+
+    data = {'q': fake_text, 'source': "es", 'target': "fr"}
+    # data = {'q': 'India gana la copa mundial después de 28 años', 'source': "es", 'target': "fr"}
     response = requests.post(LIBRE_TRANSLATE_URL, data=data)
-    fake_text = "blahg balkeaeh oaedsfoih"
 
     # print(type(F_gen_response.text))
-    json_response = json.loads(response.text)
-    print(json_response)
-    assert app.text_translator(fake_text == data)
+    json_response = response.json()
+    translated_text = json_response["translatedText"]
+    assert translated_text != fake_text
 
 
 def test_file():
     APP_DIRECTORY = os.environ.get("APP_DIRECTORY")
     test_path = os.path.join(APP_DIRECTORY, 'testfile.txt')
-    assert app.file_translator(test_path)
+
+    response = app.file_translator(test_path)
+    assert isinstance(response, str)
 
 # Example that works
 

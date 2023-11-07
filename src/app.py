@@ -1,18 +1,16 @@
 import os
-from flask import Flask, request, render_template, Response
+from flask import Flask, request, render_template, Response, jsonify
 import requests
-from requests import Response
 import logging
 from dotenv import load_dotenv
 import json
+
+load_dotenv()
 
 logger = logging.getLogger()
 
 logger.setLevel(os.environ.get("LOG_LEVEL"))
 app = Flask(__name__)
-
-
-load_dotenv()
 
 
 # Requests the current directory
@@ -56,10 +54,16 @@ def profanity(text):
 # Translated Text
 def text_translator(text) -> Response:
     LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-    data = {'q': text, 'source': "auto", 'target': "en"}
+    data = {'q': text, 'source': "auto", 'target': "es"}
     gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
-    json_response = json.loads(gen_response.text)
-    return json_response
+
+    logger.info(f"Translation Status Code: {gen_response.status_code}")
+    logger.info(f"Translation Response Text: {gen_response.text}")
+
+    if gen_response.status_code == 200:
+        return gen_response.text
+    else:
+        return f"Translation error: {gen_response.status_code}"
 
 
 # Translated text file
@@ -67,7 +71,13 @@ def file_translator(file_path):
     with open(file_path, 'r') as file:
         input_text = file.read()
         file_response = text_translator(input_text)
-        return file_response.text
+
+        # Checks to see if file_response produces an instance
+        if isinstance(file_response, Response):
+            return file_response.text
+
+        else:
+            return file_response
 
 
 @app.route('/')
@@ -107,12 +117,11 @@ def translate():
             return "File or Directory not found", 400
 
     else:
-        text_response = text_translator(input_text)
-        if text_response.status_code != 200:
-            return f"Translation error: {text_response.status_code}", 500
-        translated_text = text_response.text
-
-    return Response(translated_text, content_type='text/plain')
+        # Checks to see if the text_response is a string
+        translated_text = text_translator(input_text)
+        return Response(translated_text, content_type='text/plain')
+    
+    return jsonify({'translated_text': translated_text})
 
 
 if __name__ == "__main__":

@@ -1,6 +1,5 @@
 import os
 from flask import Flask, request, render_template, Response
-# jsonify
 import requests
 import logging
 from dotenv import load_dotenv
@@ -53,9 +52,9 @@ def profanity(text):
 
 
 # Translated Text
-def text_translator(text) -> Response:
+def text_translator(text, target_language) -> Response:
     LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-    data = {'q': text, 'source': "auto", 'target': "es"}
+    data = {'q': text, 'source': "auto", 'target': target_language}
     gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
     json_response = json.loads(gen_response.text)
 
@@ -68,10 +67,10 @@ def text_translator(text) -> Response:
 
 
 # Translated text file
-def file_translator(file_path):
+def file_translator(file_path, target_language):
     with open(file_path, 'r') as file:
         input_text = file.read()
-        file_response = text_translator(input_text)
+        file_response = text_translator(input_text, target_language)
 
         # Checks to see if file_response produces an instance in Response
         if isinstance(file_response, Response):
@@ -88,6 +87,7 @@ def index():
 def translate():
     input_text = request.form.get('input_text')
     file_path = request.form.get('file_path')
+    target_language = request.form.get('target_language')
 
     translated_text = None
 
@@ -99,14 +99,14 @@ def translate():
 
         if os.path.exists(file_path):
             if os.path.isfile(file_path):
-                translated_text = file_translator(file_path)
+                translated_text = file_translator(file_path, target_language)
             elif os.path.isdir(file_path):
                 translated_text = ""
 
                 for root, dirs, files in os.walk(file_path):
                     for filename in files:
                         filepath = os.path.join(root, filename)
-                        translated_text += file_translator(filepath)
+                        translated_text += file_translator(filepath, target_language)
 
                 output_file_path = os.path.join(output_directory, os.path.basename(file_path))
                 with open(output_file_path, 'w') as output_file:
@@ -119,9 +119,7 @@ def translate():
 
     else:
         # Checks to see if the text_response is a string
-        translated_text = text_translator(input_text)
-        # return Response(translated_text, content_type='text/plain')
-        # return jsonify({"Translated Text": translated_text.strip()})
+        translated_text = text_translator(input_text, target_language)
 
     return render_template('index.html', translated_text=translated_text)
 

@@ -1,0 +1,106 @@
+interactions:
+- request:
+    body: q=Go+Jets+Go.&source=auto&target=fr
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '35'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - python-requests/2.31.0
+    method: POST
+    uri: http://localhost:5000/translate
+  response:
+    body:
+      string: '{"detectedLanguage":{"confidence":90.0,"language":"en"},"translatedText":"Allez
+        Jets Go."}
+
+        '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type
+      Access-Control-Allow-Methods:
+      - GET, POST
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization
+      Access-Control-Max-Age:
+      - '1728000'
+      Connection:
+      - close
+      Content-Length:
+      - '91'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 08 Nov 2023 02:57:04 GMT
+      Server:
+      - Werkzeug/2.2.2 Python/3.10.10
+      Set-Cookie:
+      - session=0985cc79-732d-4e44-8ebd-e1de536cc0a1; Expires=Sat, 09 Dec 2023 02:57:04
+        GMT; HttpOnly; Path=/
+    status:
+      code: 200
+      message: OK
+- request:
+    body: q=Allez+Jets+Go.&source=auto&target=fr
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '38'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - python-requests/2.31.0
+    method: POST
+    uri: http://localhost:5000/translate
+  response:
+    body:
+      string: '{"detectedLanguage":{"confidence":45.0,"language":"en"},"translatedText":"Allez
+        Jets Go."}
+
+        '
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type
+      Access-Control-Allow-Methods:
+      - GET, POST
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - Authorization
+      Access-Control-Max-Age:
+      - '1728000'
+      Connection:
+      - close
+      Content-Length:
+      - '91'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 08 Nov 2023 03:06:22 GMT
+      Server:
+      - Werkzeug/2.2.2 Python/3.10.10
+      Set-Cookie:
+      - session=fe89944f-ee75-4501-843f-e3f7a228b8f0; Expires=Sat, 09 Dec 2023 03:06:22
+        GMT; HttpOnly; Path=/
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -10,10 +10,19 @@
     <form action="/translate" method="POST">
         <label for="input_text">Input Text:</label><br>
         <input type="text" name="input_text" ><br><br>
+
         <label for="file_path" >Upload File to be Translated</label><br>
         <input type="file" name="file_path"><br><br>
+
+        <label for="language_selector">Select Language For Translation:</label><br>
+        <select name="target_language" id="language_selector">
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+            <option value="ar">Arabic</option>
+        </select><br><br>
+
         <input type="submit" value="Translate"><br><br><br>
-        <label for="translated_result">Result</label>
+        <label for="translated_result">Result:</label>
         <div id="translated_result">{{ translated_text }}</div>
         
     </form>

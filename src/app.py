@@ -1,5 +1,6 @@
 import os
-from flask import Flask, request, render_template, Response, jsonify
+from flask import Flask, request, render_template, Response
+# jsonify
 import requests
 import logging
 from dotenv import load_dotenv
@@ -83,12 +84,12 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/translate', methods=['POST', 'GET'])
+@app.route('/translate', methods=['POST'])
 def translate():
     input_text = request.form.get('input_text')
     file_path = request.form.get('file_path')
 
-    # text_translator = None
+    translated_text = None
 
     if profanity(input_text):
         return "Profanity Detected. Please Remove."
@@ -102,7 +103,7 @@ def translate():
             elif os.path.isdir(file_path):
                 translated_text = ""
 
-                for root, files in os.walk(file_path):
+                for root, dirs, files in os.walk(file_path):
                     for filename in files:
                         filepath = os.path.join(root, filename)
                         translated_text += file_translator(filepath)
@@ -115,13 +116,14 @@ def translate():
                 return "Invalid File or Directory Path", 400
         else:
             return "File or Directory not found", 400
-        # return render_template('index.html', translated_text=translated_text)
 
     else:
         # Checks to see if the text_response is a string
         translated_text = text_translator(input_text)
-        return Response(translated_text, content_type='text/plain')
-    return jsonify({"Translated Text": translated_text.strip()})
+        # return Response(translated_text, content_type='text/plain')
+        # return jsonify({"Translated Text": translated_text.strip()})
+
+    return render_template('index.html', translated_text=translated_text)
 
 
 if __name__ == "__main__":

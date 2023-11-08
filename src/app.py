@@ -36,7 +36,7 @@ os.makedirs(output_directory, exist_ok=True)
 
 
 # Profanity Words Checker
-def profanity(text):
+def profanity(text: str) -> bool:
     with open(profanity_words, 'r') as file:
         badwords = set(word.lower().strip() for word in file)
 
@@ -52,7 +52,7 @@ def profanity(text):
 
 
 # Translated Text
-def text_translator(text, target_language) -> Response:
+def text_translator(text: str, target_language: str) -> Response:
     LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
     data = {'q': text, 'source': "auto", 'target': target_language}
     gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
@@ -63,11 +63,11 @@ def text_translator(text, target_language) -> Response:
 
     if gen_response.status_code == 200:
         return json_response["translatedText"]
-    return f"Translation error: {json_response.status_code}"
+    logger.info(f"Translation error: {json_response.status_code}")
 
 
 # Translated text file
-def file_translator(file_path, target_language):
+def file_translator(file_path: str, target_language: str) -> str:
     with open(file_path, 'r') as file:
         input_text = file.read()
         file_response = text_translator(input_text, target_language)
@@ -75,6 +75,8 @@ def file_translator(file_path, target_language):
         # Checks to see if file_response produces an instance in Response
         if isinstance(file_response, Response):
             return file_response.text
+        else:
+            logger.info("Not an instance of Response")
         return file_response
 
 

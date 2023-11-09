@@ -1,0 +1,1 @@
+Recently, my team started a project that, as the first step, involves integrating raw data files in formats .csv, .xlsx, .pdf, .docx, and .doc. My first reaction: the mighty pandas! which certainly handles the .csv and .xlsx, but regarding the .pdf and .docx, we will have to explore possibilities beyond the pandas.

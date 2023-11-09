@@ -10,10 +10,10 @@
     <h1>Language Translator</h1>
     <form action="/translate" method="POST">
         <label for="input_text">Input Text:</label><br>
-        <input type="text" name="input_text" ><br><br>
+        <input type="text" name="input_text"><br><br>
 
         <label for="file_path" >Upload File to be Translated</label><br>
-        <input type="file" name="file_path"><br><br>
+        <input type="file" name="file_path" accept="pdf, txt, docx"><br><br>
 
         <label for="language_selector">Select Language For Translation:</label><br>
         <select name="target_language" id="language_selector">

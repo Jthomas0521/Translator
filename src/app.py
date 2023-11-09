@@ -105,7 +105,7 @@ def translate():
             elif os.path.isdir(file_path):
                 translated_text = ""
 
-                for root, dirs, files in os.walk(file_path):
+                for root, files in os.walk(file_path):
                     for filename in files:
                         filepath = os.path.join(root, filename)
                         translated_text += file_translator(filepath, target_language)

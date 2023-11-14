@@ -4,6 +4,7 @@ import requests
 import logging
 from dotenv import load_dotenv
 import json
+from docx import Document
 
 load_dotenv()
 
@@ -79,6 +80,22 @@ def file_translator(file_path: str, target_language: str) -> str:
             logger.info("Not an instance of Response")
         return file_response
 
+
+# Translated docx file
+def doc_translator(file_path: str, target_language: str) -> str:
+    with open(file_path, 'rb') as file:
+        doc_text = ""
+        doc = Document()
+        for p in doc.paragraphs:
+            doc_text += p.text
+
+
+
+# Translated pdf file
+def pdf_translator(file_path: str, target_language: str) -> str:
+    with open(file_path, 'rb') as file:
+        pdf_text = ''
+        
 
 @app.route('/')
 def index():

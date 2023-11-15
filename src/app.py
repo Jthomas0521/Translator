@@ -5,6 +5,7 @@ import logging
 from dotenv import load_dotenv
 import json
 from docx import Document
+import PyPDF2
 
 load_dotenv()
 
@@ -81,21 +82,28 @@ def file_translator(file_path: str, target_language: str) -> str:
         return file_response
 
 
-# Translated docx file
-def doc_translator(file_path: str, target_language: str) -> str:
-    with open(file_path, 'rb') as file:
-        doc_text = ""
-        doc = Document()
-        for p in doc.paragraphs:
-            doc_text += p.text
+# Translated DOCX file
+def docx_translator(file_path: str, target_language: str) -> str:
+    docx_file = Document(file_path)
+    docx_text = []
+
+    for paragraph in docx_file.paragraphs:
+        docx_text.append(paragraph.text)
+    input_text = ''.join(docx_text)
+    return text_translator(input_text, target_language)
 
 
-
-# Translated pdf file
+# Translated PDF file
 def pdf_translator(file_path: str, target_language: str) -> str:
     with open(file_path, 'rb') as file:
-        pdf_text = ''
-        
+        pdf_reader = PyPDF2.PdfFileReader(file)
+        input_text = ''
+
+        for page_num in range(pdf_reader):
+            pdf_page = pdf_reader.getPage(page_num)
+            input_text += pdf_page.extractText()
+        return text_translator(input_text, target_language)
+
 
 @app.route('/')
 def index():

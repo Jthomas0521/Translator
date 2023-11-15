@@ -41,6 +41,33 @@ def test_file():
     assert app.file_translator(test_path, target_language)
 
 
+def test_docx(tmp_path, mocker, monkeypatch):
+    target_language = "fr"
+    translated_text = "Translated Docx Text"
+    file_content = "Docx Content"
+    file_path = tmp_path / "sample.docx"
+    
+    with open(file_path, 'w') as file:
+        file.write(file_content)
+        
+    mocker.patch('src.app.text_translator', return_value=translated_text)
+    result = app.file_translator(str(file_path), target_language)
+    assert result == translated_text
+    
+
+def test_pdf(tmp_path, mocker, monkeypatch):
+    target_language = "fr"
+    translated_text = "Translated PDF Text"
+    file_content = "PDF COntent"
+    file_path = tmp_path / "sample.pdf"
+    
+    with open(file_path, 'w') as file:
+        file.write(file_content)
+        
+    mocker.patch('src.app.text_translator', return_value=translated_text)
+    result = app.file_translator(str(file_path), target_language)
+    assert result == translated_text
+
 # Example that works
 
 # @pytest.mark.vcr()

@@ -70,16 +70,21 @@ def text_translator(text: str, target_language: str) -> Response:
 
 # Translated text file
 def file_translator(file_path: str, target_language: str) -> str:
-    with open(file_path, 'r') as file:
-        input_text = file.read()
-        file_response = text_translator(input_text, target_language)
+    if file_path.endswith('.docx'):
+        input_text = docx_translator(file_path)
+    elif file_path.endswith('.docx'):
+        input_text = pdf_translator(file_path)
+    else:
+        with open(file_path, 'r') as file:
+            input_text = file.read()
+    file_response = text_translator(input_text, target_language)
 
-        # Checks to see if file_response produces an instance in Response
-        if isinstance(file_response, Response):
-            return file_response.text
-        else:
-            logger.info("Not an instance of Response")
-        return file_response
+    # Checks to see if file_response produces an instance in Response
+    if isinstance(file_response, Response):
+        return file_response.text
+    else:
+        logger.info("Not an instance of Response")
+    return file_response
 
 
 # Translated DOCX file

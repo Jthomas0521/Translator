@@ -1,4 +1,9 @@
 body {
+    display: flex;
     background-color: black;
     color: red;
+    align-items: center;
+    margin: 0;
+    justify-content: center;
+
 }

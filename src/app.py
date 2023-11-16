@@ -53,40 +53,6 @@ def profanity(text: str) -> bool:
         return False
 
 
-# Translated Text
-def text_translator(text: str, target_language: str) -> Response:
-    LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-    data = {'q': text, 'source': "auto", 'target': target_language}
-    gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
-    json_response = json.loads(gen_response.text)
-
-    logger.info(f"Translation Status Code: {gen_response.status_code}")
-    logger.info(f"Translation Response Text: {gen_response.text}")
-
-    if gen_response.status_code == 200:
-        return json_response["translatedText"]
-    logger.info(f"Translation error: {json_response.status_code}")
-
-
-# Translated text file
-def file_translator(file_path: str, target_language: str) -> str:
-    if file_path.endswith('.docx'):
-        input_text = docx_translator(file_path)
-    elif file_path.endswith('.docx'):
-        input_text = pdf_translator(file_path)
-    else:
-        with open(file_path, 'r') as file:
-            input_text = file.read()
-    file_response = text_translator(input_text, target_language)
-
-    # Checks to see if file_response produces an instance in Response
-    if isinstance(file_response, Response):
-        return file_response.text
-    else:
-        logger.info("Not an instance of Response")
-    return file_response
-
-
 # Translated DOCX file
 def docx_translator(file_path: str, target_language: str) -> str:
     docx_file = Document(file_path)
@@ -108,6 +74,40 @@ def pdf_translator(file_path: str, target_language: str) -> str:
             pdf_page = pdf_reader.getPage(page_num)
             input_text += pdf_page.extractText()
         return text_translator(input_text, target_language)
+
+
+# Translated Text
+def text_translator(text: str, target_language: str) -> Response:
+    LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
+    data = {'q': text, 'source': "auto", 'target': target_language}
+    gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
+    json_response = json.loads(gen_response.text)
+
+    logger.info(f"Translation Status Code: {gen_response.status_code}")
+    logger.info(f"Translation Response Text: {gen_response.text}")
+
+    if gen_response.status_code == 200:
+        return json_response["translatedText"]
+    logger.info(f"Translation error: {json_response.status_code}")
+
+
+# Translated text file
+def file_translator(file_path: str, target_language: str) -> str:
+    if file_path.endswith('.docx'):
+        input_text = docx_translator(file_path, target_language)
+    elif file_path.endswith('.docx'):
+        input_text = pdf_translator(file_path, target_language)
+    else:
+        with open(file_path, 'r') as file:
+            input_text = file.read()
+    file_response = text_translator(input_text, target_language)
+
+    # Checks to see if file_response produces an instance in Response
+    if isinstance(file_response, Response):
+        return file_response.text
+    else:
+        logger.info("Not an instance of Response")
+    return file_response
 
 
 @app.route('/')

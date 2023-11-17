@@ -5,11 +5,49 @@ h1 {
     text-decoration: aqua;
 }
 
-body {
+body{
     background-color: black;
     color: red;
     justify-content: center;
     margin: 0;
     align-items: center;
     position: relative;
+}
+
+h1{
+    position: relative;
+    text-align: center;
+    margin: 0;
+    color: aliceblue;
+    padding-top: 0px;
+    text-decoration: underline 2px aliceblue;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: red;
+    margin: 0;
+    height: 100vh;
+    flex-direction: column;
+
+}
+
+form{
+    border: 1px solid aliceblue;
+    border-radius: 20px;
+    margin: 20px;
+    padding: 20px;
+    
+}
+
+#translated_result{
+    border: 1px solid grey;
+    border-radius: 2px;
+    margin: 10px;
+    padding: 10px;
+    background-color: white;
+    color: black;
 }

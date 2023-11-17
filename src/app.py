@@ -5,7 +5,8 @@ import logging
 from dotenv import load_dotenv
 import json
 from docx import Document
-import PyPDF2
+from PyPDF2 import PdfFileReader
+import pypdf
 
 load_dotenv()
 
@@ -60,14 +61,14 @@ def docx_translator(file_path: str, target_language: str) -> str:
 
     for paragraph in docx_file.paragraphs:
         docx_text.append(paragraph.text)
-    input_text = ''.join(docx_text)
+    input_text = '\n'.join(docx_text)
     return text_translator(input_text, target_language)
 
 
 # Translated PDF file
 def pdf_translator(file_path: str, target_language: str) -> str:
     with open(file_path, 'rb') as file:
-        pdf_reader = PyPDF2.PdfFileReader(file)
+        pdf_reader = pypdf.PdfFileReader(file)
         input_text = ''
 
         for page_num in range(pdf_reader):
@@ -95,7 +96,7 @@ def text_translator(text: str, target_language: str) -> Response:
 def file_translator(file_path: str, target_language: str) -> str:
     if file_path.endswith('.docx'):
         input_text = docx_translator(file_path, target_language)
-    elif file_path.endswith('.docx'):
+    elif file_path.endswith('.pdf'):
         input_text = pdf_translator(file_path, target_language)
     else:
         with open(file_path, 'r') as file:

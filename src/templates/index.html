@@ -10,12 +10,12 @@
     <h1>Language Translator</h1>
     <form action="/translate" method="POST">
         <label for="input_text">Input Text:</label><br>
-        <input type="text" name="input_text"><br><br>
+        <input type="text" name="input_text"><br><br><br>
 
         <label for="file_path" >Upload File to be Translated</label><br>
-        <input type="file" name="file_path" accept=".pdf, .txt, .docx"><br><br>
+        <input type="file" name="file_path" accept=".pdf, .txt, .docx"><br><br><br>
 
-        <label for="language_selector">Select Language For Translation:</label><br>
+        <label for="language_selector">Select Language For Translation:</label><br><br>
         <select name="target_language" id="language_selector">
             <option value="en">English</option>
             <option value="es">Spanish</option>
@@ -27,7 +27,7 @@
             <option value="pt">Portuguese</option>
             <option value="ru">Russian</option>
             <option value="hi">Hindi</option>
-        </select><br><br>
+        </select><br><br><br>
 
         <input type="submit" value="Translate"><br><br><br>
         <label for="translated_result">Result:</label>

@@ -4,7 +4,7 @@ from src import app  # noqa: F401
 import pytest
 import requests
 import os
-# import json
+from docx import Document
 
 
 def test_badwords(monkeypatch):
@@ -41,32 +41,31 @@ def test_file():
     assert app.file_translator(test_path, target_language)
 
 
-def test_docx(tmp_path, mocker, monkeypatch):
-    target_language = "fr"
-    translated_text = "Translated Docx Text"
-    file_content = "Docx Content"
+def test_docx(tmp_path, monkeypatch):
+    target_language = "es"
+    file_content = "The bird is blue."
     file_path = tmp_path / "sample.docx"
 
-    with open(file_path, 'w') as file:
-        file.write(file_content)
+    doc = Document()
+    doc.add_paragraph(file_content)
+    doc.save(file_path)
 
-    mocker.patch('src.app.text_translator', return_value=translated_text)
+    docx_text = app.text_translator(file_content, target_language)
     result = app.file_translator(str(file_path), target_language)
-    assert result == translated_text
+    assert result == docx_text
 
 
-def test_pdf(tmp_path, mocker, monkeypatch):
+def test_pdf(tmp_path, monkeypatch):
     target_language = "fr"
-    translated_text = "Translated PDF Text"
-    file_content = "PDF COntent"
+    file_content = "the traffic today was horrible."
     file_path = tmp_path / "sample.pdf"
 
     with open(file_path, 'w') as file:
         file.write(file_content)
 
-    mocker.patch('src.app.text_translator', return_value=translated_text)
+    test_text = app.text_translator(file_content, target_language)
     result = app.file_translator(str(file_path), target_language)
-    assert result == translated_text
+    assert result == test_text
 
 # Example that works
 

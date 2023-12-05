@@ -5,8 +5,8 @@ import logging
 from dotenv import load_dotenv
 import json
 from docx import Document
-from PyPDF2 import PdfFileReader
-import pypdf
+from PyPDF2 import PdfReader
+# import pypdf
 
 load_dotenv()
 
@@ -68,7 +68,7 @@ def docx_translator(file_path: str, target_language: str) -> str:
 # Translated PDF file
 def pdf_translator(file_path: str, target_language: str) -> str:
     with open(file_path, 'rb') as file:
-        pdf_reader = pypdf.PdfFileReader(file)
+        pdf_reader = PdfReader(file)
         input_text = ''
 
         for page_num in range(pdf_reader):

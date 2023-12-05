@@ -5,7 +5,8 @@ import logging
 from dotenv import load_dotenv
 import json
 from docx import Document
-from PyPDF2 import PdfReader
+import fitz
+# from PyPDF2 import PdfReader
 # import pypdf
 
 load_dotenv()
@@ -66,15 +67,25 @@ def docx_translator(file_path: str, target_language: str) -> str:
 
 
 # Translated PDF file
-def pdf_translator(file_path: str, target_language: str) -> str:
-    with open(file_path, 'rb') as file:
-        pdf_reader = PdfReader(file)
-        input_text = ''
+# def pdf_translator(file_path: str, target_language: str) -> str:
+#    with open(file_path, 'rb') as file:
+#        pdf_reader = PdfReader(file)
+#        input_text = ''
 
-        for page_num in range(pdf_reader):
-            pdf_page = pdf_reader.getPage(page_num)
-            input_text += pdf_page.extractText()
-        return text_translator(input_text, target_language)
+#        for page_num in range(pdf_reader.numPages):
+#            pdf_page = pdf_reader.getPage(page_num)
+#            input_text += pdf_page.extractText()
+#        return text_translator(input_text, target_language)
+
+def pdf_translator(file_path: str, target_language: str) -> str:
+    input_text = ''
+
+    with fitz.open(file_path) as pdf_document:
+        for page_num in range(pdf_document.page_count):
+            page = pdf_translator[page_num]
+            input_text += page.get_text()
+
+    return text_translator(input_text, target_language)
 
 
 # Translated Text

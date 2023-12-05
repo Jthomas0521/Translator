@@ -60,12 +60,13 @@ def test_pdf(tmp_path, monkeypatch):
     file_content = "the traffic today was horrible."
     file_path = tmp_path / "sample.pdf"
 
-    with open(file_path, 'w') as file:
-        file.write(file_content)
+    with open(file_path, 'wb') as file:
+        file.write(file_content.encode('utf-8'))
 
     test_text = app.text_translator(file_content, target_language)
     result = app.file_translator(str(file_path), target_language)
     assert result == test_text
+
 
 # Example that works
 

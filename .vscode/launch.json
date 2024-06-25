@@ -6,12 +6,11 @@
     "configurations": [
         {
             "name": "Python: Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "justMyCode": true,
-            "cwd":"./src"
+            "justMyCode": true
         }
     ]
 }

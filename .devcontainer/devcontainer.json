@@ -52,7 +52,7 @@
 					"${workspaceFolder}/src"
 				],
 				"flake8.args": [
-					"--ignore=E501,W503,S101,"
+					"--ignore=E501,W503,S101"
 				],
 				"editor.formatOnSave": false,
 				"black-formatter.args": [
@@ -69,18 +69,10 @@
 			}
 		}
 	}
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-	// Uncomment the next line if you want start specific services in your Docker Compose config.
-	// "runServices": [],
 	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
 	// "shutdownAction": "none",
 	// Uncomment the next line to run commands after the container is created.
-	
-	// Configure tool-specific properties.
-	// "customizations": {},
+	// "postCreateCommand": "your-command-here"
 	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "devcontainer"
 }

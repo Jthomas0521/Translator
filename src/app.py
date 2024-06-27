@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import json
 from docx import Document
 import fitz
+
 # from PyPDF2 import PdfReader
 # import pypdf
 
@@ -19,15 +20,15 @@ app = Flask(__name__)
 
 # Requests the current directory
 APP_DIRECTORY = os.environ.get("APP_DIRECTORY")
-logging.info(f'APP_DIRECTORY is {APP_DIRECTORY}')
-profanity_words = os.path.join(APP_DIRECTORY, 'badwords.txt')
+logging.info(f"APP_DIRECTORY is {APP_DIRECTORY}")
+profanity_words = os.path.join(APP_DIRECTORY, "src/" "badwords.txt")
 
 LIBRE_TRANSLATE_PORT = os.environ.get("LIBRE_TRANSLATE_PORT")
 
 
 # Directory paths for input and output volumes
-input_directory = os.path.join(APP_DIRECTORY, 'input')
-output_directory = os.path.join(APP_DIRECTORY, 'output')
+input_directory = os.path.join(APP_DIRECTORY, "input")
+output_directory = os.path.join(APP_DIRECTORY, "output")
 
 # Input and Output Directories
 os.makedirs(input_directory, exist_ok=True)
@@ -41,7 +42,7 @@ os.makedirs(output_directory, exist_ok=True)
 
 # Profanity Words Checker
 def profanity(text: str) -> bool:
-    with open(profanity_words, 'r') as file:
+    with open(profanity_words, "r") as file:
         badwords = set(word.lower().strip() for word in file)
 
         # Splits the text
@@ -62,7 +63,7 @@ def docx_translator(file_path: str, target_language: str) -> str:
 
     for paragraph in docx_file.paragraphs:
         docx_text.append(paragraph.text)
-    input_text = '\n'.join(docx_text)
+    input_text = "\n".join(docx_text)
     return text_translator(input_text, target_language)
 
 
@@ -77,8 +78,9 @@ def docx_translator(file_path: str, target_language: str) -> str:
 #            input_text += pdf_page.extractText()
 #        return text_translator(input_text, target_language)
 
+
 def pdf_translator(file_path: str, target_language: str) -> str:
-    input_text = ''
+    input_text = ""
 
     with fitz.open(file_path) as pdf_document:
         for page_num in range(pdf_document.page_count):
@@ -91,7 +93,7 @@ def pdf_translator(file_path: str, target_language: str) -> str:
 # Translated Text
 def text_translator(text: str, target_language: str) -> Response:
     LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-    data = {'q': text, 'source': "auto", 'target': target_language}
+    data = {"q": text, "source": "auto", "target": target_language}
     gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
     json_response = json.loads(gen_response.text)
 
@@ -105,12 +107,12 @@ def text_translator(text: str, target_language: str) -> Response:
 
 # Translated text file
 def file_translator(file_path: str, target_language: str) -> str:
-    if file_path.endswith('.docx'):
+    if file_path.endswith(".docx"):
         input_text = docx_translator(file_path, target_language)
-    elif file_path.endswith('.pdf'):
+    elif file_path.endswith(".pdf"):
         input_text = pdf_translator(file_path, target_language)
     else:
-        with open(file_path, 'r') as file:
+        with open(file_path, "r") as file:
             input_text = file.read()
     file_response = text_translator(input_text, target_language)
 
@@ -122,16 +124,16 @@ def file_translator(file_path: str, target_language: str) -> str:
     return file_response
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 
 
-@app.route('/translate', methods=['POST'])
+@app.route("/translate", methods=["POST"])
 def translate():
-    input_text = request.form.get('input_text')
-    file_path = request.form.get('file_path')
-    target_language = request.form.get('target_language')
+    input_text = request.form.get("input_text")
+    file_path = request.form.get("file_path")
+    target_language = request.form.get("target_language")
 
     translated_text = None
 
@@ -153,7 +155,7 @@ def translate():
                         translated_text += file_translator(filepath, target_language)
 
                 output_file_path = os.path.join(output_directory, os.path.basename(file_path))
-                with open(output_file_path, 'w') as output_file:
+                with open(output_file_path, "w") as output_file:
                     output_file.write(translated_text)
 
             else:
@@ -165,8 +167,8 @@ def translate():
         # Checks to see if the text_response is a string
         translated_text = text_translator(input_text, target_language)
 
-    return render_template('index.html', translated_text=translated_text)
+    return render_template("index.html", translated_text=translated_text)
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=LIBRE_TRANSLATE_PORT, debug=True)
+    app.run(host="0.0.0.0", port=LIBRE_TRANSLATE_PORT, debug=True)

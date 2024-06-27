@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   
   web-dev:
@@ -10,15 +8,39 @@ services:
       target: dev
     environment:
       - LIBRE_TRANSLATE_URL=http://libretranslate:5000/translate
-      - APP_DIRECTORY=/src
-      - LIBRE_TRANSLATE_PORT=8001
+      - APP_DIRECTORY=/app
+      - LIBRE_TRANSLATE_PORT=8002
       - LOG_LEVEL=DEBUG
     volumes:
       - ./:/app
       - ./foreign_files:/foreign_files
+    depends_on:
+      - libretranslate      
     networks:
       - kafka_net
   
+
+  libretranslate:
+    image: libretranslate/libretranslate
+    volumes:
+      - input:/input
+      - output:/output
+      - libretranslate_lang_files:/home/libretranslate/.local
+    ports:
+      - "5000:5000"
+    environment:
+      - LT_DEBUG=True
+      - LT_FRONTEND_LANGUAGE_TARGET=en
+    networks:
+      - kafka_net
+      
+
+volumes:
+  input:
+  output:
+  libretranslate_lang_files:
+
+
 
 # Networks ================================================
 networks:

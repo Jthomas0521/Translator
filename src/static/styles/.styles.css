@@ -1,0 +1,83 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Cambria;
+}
+
+header{
+    background-color: whitesmoke;
+    text-align: left;
+    border: 2px solid black;
+    padding: 10px;
+}
+
+h1{
+    position: relative;
+    text-align: center;
+    align-items: center;
+    color: black;
+    margin: 0;
+    padding-top: 0px;
+    text-decoration: underline 2px red;
+}
+
+body{
+    background-color: grey;
+    color: black;
+    /* justify-content: center; */
+    margin: 0;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+    display: flex;
+
+}
+
+form{
+    /* border: 1px solid aliceblue; */
+    border-radius: 20px;
+    margin: 10px;
+    padding: 10px;
+    align-items: center;
+    /* justify-self: center; */
+}
+
+#input_text{
+    border: 1px solid black;
+    color: black;
+    margin: 10px;
+    padding: 10px;
+    background-color: white;
+}
+
+#translated_result{
+    border: 1px solid black;
+    color: black;
+    margin: 10px;
+    padding: 10px;
+    background-color: white;
+}
+
+#language_selector{
+    align-items: center;
+    text-align: center;
+    color: black;
+    /* border: 2px solid black; */
+}
+
+#language_button{
+    color: black;
+    text-align: center;
+}
+
+#translate_button{
+    text-align: center;
+    align-items: center;
+    /* color: whitesmoke; */
+}
+
+#file_upload{
+    text-align: center;
+    align-items: center;
+}

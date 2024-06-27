@@ -5,17 +5,16 @@ WORKDIR /
 COPY requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . . 
-
 ENV NAME World
-WORKDIR /src
-RUN useradd -ms /bin/bash vscode && chown -R vscode:vscode /src && chmod 755 -R /src
+WORKDIR /app
+RUN useradd -ms /bin/bash vscode && chown -R vscode:vscode /app && chmod 755 -R /app
 USER vscode
+COPY ./ /app
 
-CMD [ "python", "/src/app.py" ]
+CMD [ "python", "/app/src/app.py" ]
 
 
 FROM build as dev
-WORKDIR /src
+WORKDIR /app
 COPY requirements-dev.txt ./requirements-dev.txt
 RUN pip3 install -r requirements-dev.txt

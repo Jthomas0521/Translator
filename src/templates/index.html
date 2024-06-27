@@ -7,65 +7,53 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}"?v=1>
 </head>
 
-<header>
-    <div class="flex-none">
-        <div class="flex flex-grow mt-1">
-            <!button class="hover:bg-gray-100 rounded-full w-9 h-9 transition-colors duration-100">
-                <!i class="mdi mdi-menu text-gray-500">
-                    ::before
-                </i>
-            </button>
-            <!-- <div class="m1-2 my-auto text-lg font-medium text-gray-500">Translatorrrr</div> -->
-            <!-- <a href="#"> -->
-                <!-- <img src="" alt="Logo" class="mt-2"> -->
-            <!-- </a> -->
-            <div class="m1-2 my-auto text-lg font-medium text-gray-500">Translate</div>
-        </div>
-    </div>
-</header>
+<header>Translate</header>
+
+<h1>Language Translator</h1>
 
 <body>
-    <h1>Language Translator</h1>
     <form action="/translate" method="POST">
-        <label for="selected_text">Enter Text Here:</label>
-        <br>
-        <textarea type="text" id="input_text" rows="4" cols="50"></textarea>
-        <br>
-        <input type="submit" value="Translate">
-        <br>
-        <br>
-        <br>
-        <label for="file_path" >Upload File to be Translated</label>
-        <br>
-        <input type="file" name="file_path" accept=".pdf, .txt, .docx">
-        <br>
-        <br>
+        <div style="float:left;">
+            <label for="selected_text">Enter Text Here:</label>
+            <br>
+            <textarea type="text" name="input_text" id="input_text" rows="4" columns="50"></textarea>
+        </div>
+        <div style="float: right;">
+            <label for="translated_text">Result:</label>
+            <select name="Translator Selector" id="Translator Selector">
+                <option value="">LibreTranslate</option>
+                <option value="">NLLB</option>
+            </select>
+            <br>
+            <textarea id="translated_result" rows="4" columns="50">{{translated_text}}</textarea>
+        </div>
+        <br><br><br><br><br>
+        <div id="file_upload">
+            <br>
+            <label for="file_path" >Upload File</label>
+            <input type="file" name="file_path" accept=".pdf, .txt, .docx">
+        </div>
         <br>
 
-        <label for="language_selector">Select Language For Translation:</label>
-        <select name="target_language" id="language_selector">
-            <option value="en">English</option>
-            <option value="es">Spanish</option>
-            <option value="ar">Arabic</option>
-            <option value="zh">Chinese</option>
-            <option value="el">Greek</option>
-            <option value="de">German</option>
-            <option value="ja">Japanese</option>
-            <option value="pt">Portuguese</option>
-            <option value="ru">Russian</option>
-            <option value="hi">Hindi</option>
-        </select>
+        <div id="language_selector">
+            <label for="language_selector">Select Language For Translation:</label>
+            <select name="target_language" id="language_button">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="ar">Arabic</option>
+                <option value="zh">Chinese</option>
+                <option value="el">Greek</option>
+                <option value="de">German</option>
+                <option value="ja">Japanese</option>
+                <option value="pt">Portuguese</option>
+                <option value="ru">Russian</option>
+                <option value="hi">Hindi</option>
+            </select>
+        </div>
         <br>
-        <br>
-        <br>
-        <label for="translated_text">Result:</label>
-        <select name="Translator Selector" id="Translator Selector">
-            <option value="">LibreTranslate</option>
-            <option value="">NLLB</option>
-        </select>
-        <br>
-        <textarea id="translated_result" rows="4" columns="50">{{translated_text}}</textarea>
+        <div id="translate_button">
+            <input type="submit" value="Translate">
+        </div>
     </form>
-    
 </body>
 </html>

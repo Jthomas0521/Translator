@@ -6,11 +6,8 @@ services:
       context: ./
       dockerfile: Dockerfile
       target: dev
-    environment:
-      - LIBRE_TRANSLATE_URL=http://libretranslate:5000/translate
-      - APP_DIRECTORY=/app
-      - LIBRE_TRANSLATE_PORT=8002
-      - LOG_LEVEL=DEBUG
+    env_file:
+      - .env
     volumes:
       - ./:/app
       - ./foreign_files:/foreign_files

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Translator</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}"?v=1>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}" ?v=1>
 </head>
 
 <header>Translate</header>
@@ -21,8 +22,8 @@
         <div style="float: right;">
             <label for="translated_text">Result:</label>
             <select name="Translator Selector" id="Translator Selector">
-                <option value="">LibreTranslate</option>
-                <option value="">NLLB</option>
+                <option value="libretranslate">LibreTranslate</option>
+                <option value="nllb">NLLB</option>
             </select>
             <br>
             <textarea id="translated_result" rows="4" columns="50">{{translated_text}}</textarea>
@@ -30,7 +31,7 @@
         <br><br><br><br><br>
         <div id="file_upload">
             <br>
-            <label for="file_path" >Upload File</label>
+            <label for="file_path">Upload File</label>
             <input type="file" name="file_path" accept=".pdf, .txt, .docx">
         </div>
         <br>
@@ -56,4 +57,5 @@
         </div>
     </form>
 </body>
+
 </html>

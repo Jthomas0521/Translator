@@ -23,7 +23,7 @@ APP_DIRECTORY = os.environ.get("APP_DIRECTORY")
 logging.info(f"APP_DIRECTORY is {APP_DIRECTORY}")
 profanity_words = os.path.join(APP_DIRECTORY, "src/" "badwords.txt")
 
-LIBRE_TRANSLATE_PORT = os.environ.get("LIBRE_TRANSLATE_PORT")
+TRANSLATE_PORT = os.environ.get("TRANSLATE_PORT")
 
 
 # Directory paths for input and output volumes
@@ -91,14 +91,23 @@ def pdf_translator(file_path: str, target_language: str) -> str:
 
 
 # Translated Text
-def text_translator(text: str, target_language: str) -> Response:
-    LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
-    data = {"q": text, "source": "auto", "target": target_language}
-    gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
-    json_response = json.loads(gen_response.text)
+def text_translator(text: str, target_language: str, language_tool: str) -> Response:
 
-    logger.info(f"Translation Status Code: {gen_response.status_code}")
-    logger.info(f"Translation Response Text: {gen_response.text}")
+    if language_tool == "libretranslate":
+        LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
+        data = {"q": text, "source": "auto", "target": target_language}
+        gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
+        json_response = json.loads(gen_response.text)
+
+    elif language_tool == "nllb":
+        NLLB_TRANSLATE_URL = os.environ.get("NLLB_TRANSLATE_URL")
+        data = {"q": text, "source": "auto", "target": target_language}
+        gen_response = requests.post(NLLB_TRANSLATE_URL, data=data)
+        json_response = json.loads(gen_response.text)
+
+    else:
+        logger.info(f"Translation Status Code: {gen_response.status_code}")
+        logger.info(f"Translation Response Text: {gen_response.text}")
 
     if gen_response.status_code == 200:
         return json_response["translatedText"]
@@ -134,11 +143,9 @@ def translate():
     input_text = request.form.get("input_text")
     file_path = request.form.get("file_path")
     target_language = request.form.get("target_language")
-
+    language_tool = request.form.get("Translator Selector")
+    logging.info(f"translator tool is {language_tool}")
     translated_text = None
-
-    if profanity(input_text):
-        return "Profanity Detected. Please Remove."
 
     if file_path:
         file_path = os.path.join(APP_DIRECTORY, file_path)
@@ -171,4 +178,4 @@ def translate():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=LIBRE_TRANSLATE_PORT, debug=True)
+    app.run(host="0.0.0.0", port=TRANSLATE_PORT, debug=True)

@@ -10,6 +10,7 @@ header{
     background-color: black;
     text-align: left;
     border: 1px solid black;
+    color: aliceblue;
 }
 
 h1{
@@ -38,6 +39,12 @@ form{
 }
 
 #file_upload{
+    align-items: center;
+    text-align: center;
+    padding: 5px;
+}
+
+#language_selector{
     align-items: center;
     text-align: center;
     padding: 5px;

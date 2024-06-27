@@ -96,6 +96,7 @@ def text_translator(text: str, target_language: str, language_tool: str) -> Resp
     if language_tool == "libretranslate":
         LIBRE_TRANSLATE_URL = os.environ.get("LIBRE_TRANSLATE_URL")
         data = {"q": text, "source": "auto", "target": target_language}
+        logging.info(f"calling {LIBRE_TRANSLATE_URL}")
         gen_response = requests.post(LIBRE_TRANSLATE_URL, data=data)
         json_response = json.loads(gen_response.text)
 
@@ -172,7 +173,7 @@ def translate():
 
     else:
         # Checks to see if the text_response is a string
-        translated_text = text_translator(input_text, target_language)
+        translated_text = text_translator(input_text, target_language, language_tool)
 
     return render_template("index.html", translated_text=translated_text)
 

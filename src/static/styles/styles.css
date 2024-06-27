@@ -2,7 +2,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Cambria;
+    font-family: sans-serif;
+}
+
+header{
+    background-color: black;
+    text-align: left;
+    border: 1px solid black;
 }
 
 h1{
@@ -28,4 +34,16 @@ form{
     margin: 10px;
     padding: 10px;
     align-items: center;
+}
+
+#file_upload{
+    align-items: center;
+    text-align: center;
+    padding: 5px;
+}
+
+#translate_button{
+    text-align: center;
+    align-items: center;
+    padding: 10px;
 }

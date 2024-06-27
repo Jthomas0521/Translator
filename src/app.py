@@ -173,7 +173,7 @@ def translate():
 
     else:
         # Checks to see if the text_response is a string
-        translated_text = text_translator(input_text, target_language, language_tool)
+        translated_text = text_translator(input_text, target_language,language_tool)
 
     return render_template("index.html", translated_text=translated_text)
 

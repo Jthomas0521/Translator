@@ -6,6 +6,7 @@
 }
 
 header{
+    width: 100%;
     background-color: black;
     text-align: left;
     border: 1px solid black;

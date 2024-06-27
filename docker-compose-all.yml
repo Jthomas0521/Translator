@@ -1,0 +1,65 @@
+services:
+  web:
+    image: translator-web
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: build
+    ports:
+      - "8000:8000"
+      - "8002:8002"
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+      - ./foreign_files:/foreign_files
+    depends_on:
+      - libretranslate
+    networks:
+      - kafka_net
+  
+  
+  libretranslate:
+    image: libretranslate/libretranslate
+    volumes:
+      - input:/input
+      - output:/output
+      - libretranslate_lang_files:/home/libretranslate/.local
+    ports:
+      - "5000:5000"
+    environment:
+      - LT_DEBUG=True
+      - LT_FRONTEND_LANGUAGE_TARGET=en
+    networks:
+      - kafka_net
+
+  nllb_rest:
+    image: nllb-rest
+    env_file:
+      - .env.nllb
+    volumes:
+      - ./models:/app/models
+    ports:
+      - 5001:5001
+    command: ["uvicorn", "main_api:app", "--host", "0.0.0.0", "--reload", "--port", "5001"]
+    networks:
+      - kafka_net
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu] 
+
+volumes:
+  input:
+  output:
+  libretranslate_lang_files:
+
+
+
+# Networks ================================================
+networks:
+  kafka_net:
+    name: kafka_net
